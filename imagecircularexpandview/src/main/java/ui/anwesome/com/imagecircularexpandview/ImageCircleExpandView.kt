@@ -56,7 +56,7 @@ class ImageCircleExpandView(ctx:Context,var bitmap:Bitmap):View(ctx) {
                 if(j == scales.size || j == -1) {
                     jDir *= -1
                     j += jDir
-                    prevScale = scales[j] + dir
+                    prevScale = scales[j]
                     dir = 0f
                     stopcb(prevScale)
                 }
@@ -82,7 +82,7 @@ class ImageCircleExpandView(ctx:Context,var bitmap:Bitmap):View(ctx) {
             canvas.save()
             canvas.rotate(180f*(1-state.scales[1]))
             val path = Path()
-            path.addCircle(0f,0f,r*state.scales[1],Path.Direction.CW)
+            path.addCircle(0f,0f,r*state.scales[0],Path.Direction.CW)
             canvas.clipPath(path)
             canvas.drawBitmap(bitmap,-r.toFloat(),-r.toFloat(),paint)
             canvas.restore()
