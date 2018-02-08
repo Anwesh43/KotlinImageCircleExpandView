@@ -70,6 +70,7 @@ class ImageCircleExpandView(ctx:Context,var bitmap:Bitmap):View(ctx) {
         fun draw(canvas:Canvas,paint:Paint) {
             canvas.save()
             canvas.translate(w.toFloat()/2,h.toFloat()/2)
+            paint.color = Color.parseColor("#212121")
             canvas.drawCircle(0f,0f,r.toFloat(),paint)
             canvas.save()
             canvas.rotate(180f*(1-state.scales[1]))
@@ -85,6 +86,30 @@ class ImageCircleExpandView(ctx:Context,var bitmap:Bitmap):View(ctx) {
         }
         fun startUpdating(startcb:()->Unit) {
             state.startUpdating(startcb)
+        }
+    }
+    data class Renderer(var view:ImageCircleExpandView,var time:Int = 0) {
+        var image:ImageCircleExpand?=null
+        val animator = Animator(view)
+        fun render(canvas:Canvas,paint:Paint) {
+            if(time == 0) {
+                val w = canvas.width
+                val h = canvas.height
+                image = ImageCircleExpand(view.bitmap,w,h)
+            }
+            canvas.drawColor(Color.parseColor("#00FFFFFF"))
+            image?.draw(canvas,paint)
+            time++
+            animator.animate {
+                image?.update {
+                    animator.stop()
+                }
+            }
+        }
+        fun handleTap() {
+            image?.startUpdating {
+                animator.start()
+            }
         }
     }
 }
