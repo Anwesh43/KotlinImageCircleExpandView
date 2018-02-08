@@ -80,7 +80,7 @@ class ImageCircleExpandView(ctx:Context,var bitmap:Bitmap):View(ctx) {
             paint.color = Color.parseColor("#212121")
             canvas.drawCircle(0f,0f,r.toFloat(),paint)
             canvas.save()
-            canvas.rotate(180f*(1-state.scales[1]))
+            canvas.rotate(360f*(1-state.scales[1]))
             val path = Path()
             path.addCircle(0f,0f,r*state.scales[0],Path.Direction.CW)
             canvas.clipPath(path)
