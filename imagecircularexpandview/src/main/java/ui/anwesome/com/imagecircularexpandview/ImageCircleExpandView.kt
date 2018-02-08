@@ -56,7 +56,7 @@ class ImageCircleExpandView(ctx:Context,var bitmap:Bitmap):View(ctx) {
                 if(j == scales.size || j == -1) {
                     jDir *= -1
                     j += jDir
-                    prevScale = scales[jDir] + dir
+                    prevScale = scales[j] + dir
                     dir = 0f
                     stopcb(prevScale)
                 }
