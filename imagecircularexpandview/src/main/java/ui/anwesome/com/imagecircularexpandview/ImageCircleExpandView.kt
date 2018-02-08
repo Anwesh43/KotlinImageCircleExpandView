@@ -3,6 +3,7 @@ package ui.anwesome.com.imagecircularexpandview
 /**
  * Created by anweshmishra on 08/02/18.
  */
+import android.app.Activity
 import android.graphics.*
 import android.content.*
 import android.view.*
@@ -116,6 +117,13 @@ class ImageCircleExpandView(ctx:Context,var bitmap:Bitmap):View(ctx) {
             image?.startUpdating {
                 animator.start()
             }
+        }
+    }
+    companion object {
+        fun create(activity:Activity,bitmap:Bitmap):ImageCircleExpandView {
+            val view = ImageCircleExpandView(activity,bitmap)
+            activity.setContentView(view)
+            return view
         }
     }
 }
