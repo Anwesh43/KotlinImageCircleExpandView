@@ -6,7 +6,7 @@ package ui.anwesome.com.imagecircularexpandview
 import android.graphics.*
 import android.content.*
 import android.view.*
-class ImageCircleExpandView(ctx:Context):View(ctx) {
+class ImageCircleExpandView(ctx:Context,var bitmap:Bitmap):View(ctx) {
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     override fun onDraw(canvas:Canvas) {
 
@@ -60,6 +60,31 @@ class ImageCircleExpandView(ctx:Context):View(ctx) {
                 dir = 1f - 2*prevScale
                 startcb()
             }
+        }
+    }
+    data class ImageCircleExpand(var bitmap:Bitmap,var w:Int,var h:Int,var r:Int = Math.min(w,h)/3) {
+        val state = State()
+        init {
+            bitmap = Bitmap.createScaledBitmap(bitmap,2*r,2*r,true)
+        }
+        fun draw(canvas:Canvas,paint:Paint) {
+            canvas.save()
+            canvas.translate(w.toFloat()/2,h.toFloat()/2)
+            canvas.drawCircle(0f,0f,r.toFloat(),paint)
+            canvas.save()
+            canvas.rotate(180f*(1-state.scales[1]))
+            val path = Path()
+            path.addCircle(0f,0f,r*state.scales[1],Path.Direction.CW)
+            canvas.clipPath(path)
+            canvas.drawBitmap(bitmap,-r.toFloat(),-r.toFloat(),paint)
+            canvas.restore()
+            canvas.restore()
+        }
+        fun update(stopcb:(Float)->Unit) {
+            state.update(stopcb)
+        }
+        fun startUpdating(startcb:()->Unit) {
+            state.startUpdating(startcb)
         }
     }
 }
